@@ -2,8 +2,12 @@
 import SwiftUI
 
 struct AddTodoView: View {
+	
+	@EnvironmentObject var listViewModel: ListViewModel
+	@Environment(\.dismiss) var dismiss
 	@State var todoInput: String = ""
-    var body: some View {
+	
+	var body: some View {
 		NavigationStack {
 			ScrollView {
 				VStack {
@@ -14,7 +18,8 @@ struct AddTodoView: View {
 						.cornerRadius(12)
 						.padding(.horizontal)
 					Button {
-						
+						listViewModel.addTodo(title: todoInput)
+						dismiss()
 					} label: {
 						Text("Add Todo")
 							.padding(20)
@@ -25,19 +30,20 @@ struct AddTodoView: View {
 							.padding(.horizontal)
 							.padding(.vertical,4)
 							.bold()
-							
 					}
-
+					
 				}
 				.frame(maxWidth: .infinity,maxHeight: .infinity)
 			}
 			.navigationTitle("Add Todos")
 		}
-    }
+	}
+
 }
 
 #Preview {
 	NavigationStack {
 		AddTodoView()
 	}
+	.environmentObject(ListViewModel())
 }
